@@ -22,6 +22,21 @@ npm run build      # typecheck → client build → SSR build → prerender dist
 npm run preview    # serves dist on :4173
 ```
 
+## Live preview (for the client)
+
+**https://noah-is-jessin.github.io/bilkana-rooftop/** · Arabic: **/ar/** — GitHub Pages, served from the `gh-pages` branch (built files only). It's a `noindex` sales preview: kept out of Google, labelled "Digital menu prototype by Mawqeijo".
+
+Redeploy after a change:
+
+```bash
+npm run build:pages                       # BASE_PATH=/bilkana-rooftop/ + preview URL + noindex
+cd dist && git init -q -b gh-pages && git add -A && git commit -qm "Deploy" \
+  && git push -f https://github.com/NOAH-IS-JESSIN/bilkana-rooftop HEAD:gh-pages
+QA_URL=https://noah-is-jessin.github.io/bilkana-rooftop/ node scripts/interact.mjs 390 844 --touch
+```
+
+Netlify (house convention, cleaner URL): connect the repo in Netlify — `netlify.toml` already builds `npm run build:preview` with a noindex header. At launch on Bilkana's domain: `VITE_SITE_URL=https://… npm run build` and remove the noindex.
+
 ## Change content
 
 - **Menu** — items, prices, categories, Arabic, photos, featured dishes: `src/data/menu.ts` (the only file to edit). Photos: `src/data/media.ts`.
