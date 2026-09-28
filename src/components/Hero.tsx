@@ -46,7 +46,7 @@ export function Hero() {
           <source media="(max-aspect-ratio: 4/5)" srcSet={srcset("room-glass-portrait")} sizes="100vw" />
           <img
             className="hero__img"
-            src="/media/room-glass-1440.webp"
+            src={`${import.meta.env.BASE_URL}media/room-glass-1440.webp`}
             srcSet={srcset("room-glass")}
             sizes="100vw"
             alt={lang === "ar" ? MEDIA["room-glass"].altAr : MEDIA["room-glass"].alt}

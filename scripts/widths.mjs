@@ -5,6 +5,11 @@
  */
 import { chromium } from "playwright";
 
+// QA_URL=http://localhost:4174/bilkana-rooftop/ to test a sub-path (GitHub Pages) build
+const ORIGIN = (process.env.QA_URL || "http://localhost:4173/").replace(/\/?$/, "/");
+const BASE = new URL(ORIGIN).pathname;
+const at = (p) => ORIGIN + p.replace(/^\//, "");
+
 const reduced = process.argv.includes("--reduced");
 const sizes = [
   [360, 740, true],
@@ -27,7 +32,7 @@ for (const path of ["/", "/ar/"]) {
     page.on("console", (m) => (m.type() === "error" || m.type() === "warning") && errs.push(m.text()));
     page.on("pageerror", (e) => errs.push(e.message));
     page.on("response", (r) => r.status() >= 400 && errs.push(`${r.status()} ${r.url()}`));
-    await page.goto(`http://localhost:4173${path}`, { waitUntil: "networkidle" });
+    await page.goto(at(path), { waitUntil: "networkidle" });
     await page.waitForTimeout(1800);
     // walk the page so lazy images and reveals run
     const H = await page.evaluate(() => document.documentElement.scrollHeight);

@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server";
 import App from "./App";
 import type { Lang } from "./lib/i18n";
 import { META } from "./content/meta";
-import { CONTACT, PLACE, SITE_URL } from "./content/site";
+import { CONTACT, NOINDEX, PLACE, SITE_URL } from "./content/site";
 import { CATEGORIES, itemsIn } from "./data/menu";
 
 export function render(lang: Lang) {
@@ -73,6 +73,7 @@ export function head(lang: Lang) {
   return [
     `<title>${esc(m.title)}</title>`,
     `<meta name="description" content="${esc(m.description)}" />`,
+    ...(NOINDEX ? [`<meta name="robots" content="noindex, nofollow" />`] : []),
     `<link rel="canonical" href="${url}" />`,
     `<link rel="alternate" hreflang="en" href="${SITE_URL}/" />`,
     `<link rel="alternate" hreflang="ar" href="${SITE_URL}/ar/" />`,

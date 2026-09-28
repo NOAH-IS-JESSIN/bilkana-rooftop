@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview --port 4173",
-    "assets": "python3 scripts/build_assets.py"
+    "assets": "python3 scripts/build_assets.py",
+    "build:pages": "BASE_PATH=/bilkana-rooftop/ VITE_SITE_URL=https://noah-is-jessin.github.io/bilkana-rooftop VITE_NOINDEX=1 npm run build",
+    "build:preview": "VITE_NOINDEX=1 npm run build"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",

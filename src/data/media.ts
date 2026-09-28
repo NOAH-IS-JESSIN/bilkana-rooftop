@@ -159,8 +159,8 @@ export const MEDIA = {
 export type MediaKey = keyof typeof MEDIA;
 
 export const srcset = (key: MediaKey) =>
-  MEDIA[key].widths.map((w) => `/media/${key}-${w}.webp ${w}w`).join(", ");
+  MEDIA[key].widths.map((w) => `${import.meta.env.BASE_URL}media/${key}-${w}.webp ${w}w`).join(", ");
 export const src = (key: MediaKey) => {
   const ws = MEDIA[key].widths;
-  return `/media/${key}-${ws[Math.min(1, ws.length - 1)]}.webp`;
+  return `${import.meta.env.BASE_URL}media/${key}-${ws[Math.min(1, ws.length - 1)]}.webp`;
 };

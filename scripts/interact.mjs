@@ -4,6 +4,11 @@
  * Screenshots → .shots/i-*.png
  */
 import { chromium } from "playwright";
+
+// QA_URL=http://localhost:4174/bilkana-rooftop/ to test a sub-path (GitHub Pages) build
+const ORIGIN = (process.env.QA_URL || "http://localhost:4173/").replace(/\/?$/, "/");
+const BASE = new URL(ORIGIN).pathname;
+const at = (p) => ORIGIN + p.replace(/^\//, "");
 import { mkdirSync } from "node:fs";
 
 const [w = "390", h = "844", ...flags] = process.argv.slice(2);
@@ -21,7 +26,7 @@ const check = (name, ok, extra = "") => results.push(`${ok ? "PASS" : "FAIL"}  $
 const shot = (n) => page.screenshot({ path: `.shots/i-${w}-${n}.png` });
 const tap = async (sel) => (touch ? page.tap(sel) : page.click(sel));
 
-await page.goto("http://localhost:4173/", { waitUntil: "networkidle" });
+await page.goto(at(""), { waitUntil: "networkidle" });
 await page.waitForTimeout(4200);
 await shot("01-hero");
 const heroOpacity = await page.$eval(".hero__line > span", (e) => getComputedStyle(e).transform);
@@ -137,7 +142,7 @@ await page.waitForTimeout(400);
 await tap(".nav__lang");
 await page.waitForTimeout(900);
 const doc = await page.evaluate(() => ({ lang: document.documentElement.lang, dir: document.documentElement.dir, path: location.pathname }));
-check("Arabic: lang/dir/url", doc.lang === "ar" && doc.dir === "rtl" && doc.path === "/ar/", JSON.stringify(doc));
+check("Arabic: lang/dir/url", doc.lang === "ar" && doc.dir === "rtl" && doc.path === BASE + "ar/", JSON.stringify(doc));
 await shot("11-ar-hero");
 await page.evaluate(() => document.querySelector("#breakfast")?.scrollIntoView());
 await page.waitForTimeout(1200);
@@ -147,14 +152,14 @@ check("Arabic: no horizontal overflow", ow <= 0, `${ow}px`);
 await page.reload({ waitUntil: "networkidle" });
 await page.waitForTimeout(1500);
 check("Arabic persists on reload", (await page.evaluate(() => document.documentElement.lang)) === "ar");
-await page.goto("http://localhost:4173/", { waitUntil: "networkidle" });
+await page.goto(at(""), { waitUntil: "networkidle" });
 await page.waitForTimeout(1500);
-check("saved Arabic re-applies when scanning / again", (await page.evaluate(() => location.pathname)) === "/ar/");
+check("saved Arabic re-applies when scanning / again", (await page.evaluate(() => location.pathname)) === BASE + "ar/");
 await tap(".nav__lang");
 await page.waitForTimeout(800);
 
 // Deep link
-await page.goto("http://localhost:4173/#desserts", { waitUntil: "networkidle" });
+await page.goto(at("#desserts"), { waitUntil: "networkidle" });
 await page.waitForTimeout(2600);
 const dTop = await page.$eval("#desserts", (e) => Math.round(e.getBoundingClientRect().top));
 check("deep link #desserts", Math.abs(dTop - navH) < 60, `top ${dTop}`);

@@ -3,8 +3,14 @@
  * Source: thousandnights.com/bilkana/ (EN + AR), fetched 28 Sep 2026.
  */
 
-/** Placeholder until Bilkana decides where the menu lives (see MENU_SCOPE.md §D). */
-export const SITE_URL = "https://menu.bilkana.jo";
+/**
+ * Absolute URL of the deployment (canonical, og:image, JSON-LD). Placeholder until
+ * Bilkana decides where the menu lives (MENU_SCOPE.md §D); preview builds pass
+ * VITE_SITE_URL so link previews (WhatsApp) resolve.
+ */
+export const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, "") || "https://menu.bilkana.jo";
+/** Sales-preview builds stay out of search engines (VITE_NOINDEX=1). */
+export const NOINDEX = import.meta.env.VITE_NOINDEX === "1";
 
 export const PLACE = {
   name: "Bilkana Rooftop",

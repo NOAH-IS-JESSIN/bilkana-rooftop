@@ -1,0 +1,26 @@
+# Mawqeijo convention (Iron X, The Gaming Lounge): Netlify builds from the repo.
+# Sales preview — keep it out of search until Bilkana approves and the real
+# domain is decided (MENU_SCOPE.md §D). At launch: switch the command to
+# `npm run build` (with VITE_SITE_URL set) and remove the noindex header.
+[build]
+  command = "npm run build:preview"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

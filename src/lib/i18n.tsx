@@ -5,8 +5,12 @@ import { reducedMotion } from "./motion";
 export type Lang = "en" | "ar";
 
 export const LANG_KEY = "bilkana.lang";
-export const pathFor = (l: Lang) => (l === "ar" ? "/ar/" : "/");
-export const langFromPath = (p: string): Lang => (/^\/ar(\/|$)/.test(p) ? "ar" : "en");
+const BASE = import.meta.env.BASE_URL; // "/" or e.g. "/bilkana-rooftop/"
+export const pathFor = (l: Lang) => (l === "ar" ? `${BASE}ar/` : BASE);
+export const langFromPath = (p: string): Lang => {
+  const rest = p.startsWith(BASE) ? p.slice(BASE.length - 1) : p;
+  return /^\/ar(\/|$)/.test(rest) ? "ar" : "en";
+};
 
 type Ctx = { lang: Lang; t: Copy; dir: "ltr" | "rtl"; setLang: (l: Lang) => void };
 const LangCtx = createContext<Ctx | null>(null);

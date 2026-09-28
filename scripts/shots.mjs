@@ -7,6 +7,11 @@
  *   node scripts/shots.mjs 1440 900 /ar/ dar-
  */
 import { chromium } from "playwright";
+
+// QA_URL=http://localhost:4174/bilkana-rooftop/ to test a sub-path (GitHub Pages) build
+const ORIGIN = (process.env.QA_URL || "http://localhost:4173/").replace(/\/?$/, "/");
+const BASE = new URL(ORIGIN).pathname;
+const at = (p) => ORIGIN + p.replace(/^\//, "");
 import { mkdirSync } from "node:fs";
 
 const [w = "390", h = "844", path = "/", prefix = "s-", ...flags] = process.argv.slice(2);
@@ -32,7 +37,7 @@ page.on("pageerror", (e) => errors.push(`pageerror: ${e.message}`));
 page.on("requestfailed", (r) => failed.push(r.url()));
 page.on("response", (r) => r.status() >= 400 && failed.push(`${r.status()} ${r.url()}`));
 
-await page.goto(`http://localhost:4173${path}`, { waitUntil: "networkidle" });
+await page.goto(at(path), { waitUntil: "networkidle" });
 await page.waitForTimeout(2600);
 const total = await page.evaluate(() => document.documentElement.scrollHeight);
 const steps = stepsArg ? +stepsArg.split("=")[1] : Math.ceil(total / (+h * 0.9));
