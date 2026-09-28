@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f181d" />
+    <meta name="format-detection" content="telephone=no" />
+    <!--head-->
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!--preload-->
+    <script>
+      // Motion is progressive: without JS everything is visible. With JS the
+      // entrance hides what it reveals — a failsafe shows it anyway after 4 s.
+      (function (d) {
+        var h = d.documentElement;
+        h.classList.add("js");
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("intro");
+        try { if (localStorage.getItem("bilkana.seen") === "1") h.classList.add("seen"); } catch (e) {}
+        // if the app never boots, show everything the reveals would have shown
+        setTimeout(function () { if (!window.__bilkanaEntered) h.classList.add("failsafe"); }, 5000);
+      })(document);
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--app--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

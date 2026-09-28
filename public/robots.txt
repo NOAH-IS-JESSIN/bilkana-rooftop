@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# placeholder domain until Bilkana decides where the menu lives (MENU_SCOPE.md)
+Sitemap: https://menu.bilkana.jo/sitemap.xml

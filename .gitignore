@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+.shots
+*.log
+__pycache__/
+# third-party / first-party source media, fetched for the demo only (see sources/README.md)
+sources/reels
+sources/photos
+sources/menus/*.pdf
+sources/web

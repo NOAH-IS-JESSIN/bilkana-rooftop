@@ -1,0 +1,107 @@
+/* Bilkana design tokens — derived in BRAND_RESEARCH.md §3.
+   Colours are sampled from Bilkana's own room, not invented. */
+:root {
+  /* day: marble, velvet, slate */
+  --marble: #f3f0eb;
+  --marble-2: #e9e4dc;
+  --marble-3: #ddd6cb;
+  --travertine: #cbbda7;
+  --ink: #1e2a32;
+  --ink-2: #44525b;
+  --ink-3: #6b777e;
+  --slate: #2b3a44;
+  --velvet: #86adb7;
+  --velvet-deep: #3e6470;
+  --velvet-wash: #dbe7ea;
+  --brass: #b38d52;
+  --brass-ink: #8a6a37; /* brass as text on marble (AA at 16px+) */
+  --glow: #edbe6a;
+  --palm: #1f3d29;
+
+  /* night: the room after dark */
+  --night: #0f181d;
+  --night-2: #16222a;
+  --night-3: #203039;
+  --mist: #ede8df;
+  --mist-2: #b8c2c6;
+  --mist-3: #8d9aa0;
+
+  /* contextual (switched by [data-surface="night"]) */
+  --bg: var(--marble);
+  --bg-2: var(--marble-2);
+  --fg: var(--ink);
+  --fg-2: var(--ink-2);
+  --fg-3: var(--ink-3);
+  --line: rgb(30 42 50 / 0.14);
+  --line-2: rgb(30 42 50 / 0.26);
+  --accent: var(--velvet-deep);
+  --price: var(--ink);
+
+  /* type */
+  --font-display: "Marcellus", "Noto Kufi Arabic", Georgia, serif;
+  --font-ui: "Manrope Variable", "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-ar-display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", sans-serif;
+  --font-ar: "IBM Plex Sans Arabic", "Noto Kufi Arabic", system-ui, sans-serif;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.9375rem;
+  --fs-lg: 1.0625rem;
+  --fs-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --fs-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.6rem);
+  --fs-3xl: clamp(2.4rem, 1.6rem + 4vw, 4.6rem);
+  --fs-hero: clamp(2.55rem, 1.5rem + 6.2vw, 7.4rem);
+  --track-caps: 0.16em;
+
+  /* space (4 px base) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --s10: 144px;
+  --gutter: clamp(20px, 5vw, 56px);
+  --maxw: 1320px;
+
+  --radius: 2px; /* marble slabs, mullions */
+  --radius-pill: 999px; /* only the round tub-chair / plate controls */
+
+  /* motion — mirrored in src/lib/motion.ts */
+  --motion-fast: 160ms;
+  --motion-ui: 240ms;
+  --motion-medium: 450ms;
+  --motion-reveal: 700ms;
+  --ease-ui: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-panel: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* layout */
+  --bar-h: 56px;
+  --rail-h: 48px;
+  --nav-h: calc(var(--bar-h) + var(--rail-h));
+  --dock-h: 64px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --bar-h: 72px;
+    --rail-h: 0px;
+  }
+}
+
+[data-surface="night"] {
+  --bg: var(--night);
+  --bg-2: var(--night-2);
+  --fg: var(--mist);
+  --fg-2: var(--mist-2);
+  --fg-3: var(--mist-3);
+  --line: rgb(237 232 223 / 0.13);
+  --line-2: rgb(237 232 223 / 0.26);
+  --accent: var(--velvet);
+  --price: var(--mist);
+}
