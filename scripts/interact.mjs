@@ -8,13 +8,15 @@ import { chromium } from "playwright";
 // QA_URL=http://localhost:4174/bilkana-rooftop/ to test a sub-path (GitHub Pages) build
 const ORIGIN = (process.env.QA_URL || "http://localhost:4173/").replace(/\/?$/, "/");
 const BASE = new URL(ORIGIN).pathname;
+// a live URL from a proxied environment: route the browser through HTTPS_PROXY
+const PROXY = process.env.HTTPS_PROXY ? { proxy: { server: process.env.HTTPS_PROXY, bypass: "localhost,127.0.0.1" } } : {};
 const at = (p) => ORIGIN + p.replace(/^\//, "");
 import { mkdirSync } from "node:fs";
 
 const [w = "390", h = "844", ...flags] = process.argv.slice(2);
 const touch = flags.includes("--touch");
 mkdirSync(".shots", { recursive: true });
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" }).catch(() => chromium.launch());
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", ...PROXY }).catch(() => chromium.launch());
 const ctx = await browser.newContext({ viewport: { width: +w, height: +h }, hasTouch: touch, isMobile: touch });
 const page = await ctx.newPage();
 const errors = [];

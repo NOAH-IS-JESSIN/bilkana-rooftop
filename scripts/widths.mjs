@@ -8,6 +8,8 @@ import { chromium } from "playwright";
 // QA_URL=http://localhost:4174/bilkana-rooftop/ to test a sub-path (GitHub Pages) build
 const ORIGIN = (process.env.QA_URL || "http://localhost:4173/").replace(/\/?$/, "/");
 const BASE = new URL(ORIGIN).pathname;
+// a live URL from a proxied environment: route the browser through HTTPS_PROXY
+const PROXY = process.env.HTTPS_PROXY ? { proxy: { server: process.env.HTTPS_PROXY, bypass: "localhost,127.0.0.1" } } : {};
 const at = (p) => ORIGIN + p.replace(/^\//, "");
 
 const reduced = process.argv.includes("--reduced");
@@ -22,7 +24,7 @@ const sizes = [
   [1440, 900, false],
   [1920, 1080, false],
 ];
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" }).catch(() => chromium.launch());
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", ...PROXY }).catch(() => chromium.launch());
 let bad = 0;
 for (const path of ["/", "/ar/"]) {
   for (const [w, h, touch] of sizes) {
