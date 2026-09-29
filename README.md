@@ -24,14 +24,15 @@ npm run preview    # serves dist on :4173
 
 ## Live preview (for the client)
 
-**https://noah-is-jessin.github.io/bilkana-rooftop/** · Arabic: **/ar/** — GitHub Pages, served from the `gh-pages` branch (built files only). It's a `noindex` sales preview: kept out of Google, labelled "Digital menu prototype by Mawqeijo".
+**Taken down on 29 Sep 2026** — the `gh-pages` branch was emptied, so `https://noah-is-jessin.github.io/bilkana-rooftop/` returns 404. (The session's git policy blocks deleting the branch itself; to remove it, delete `gh-pages` on GitHub, or unpublish under Settings → Pages.) When it was up it was a `noindex` sales preview served from `gh-pages` (built files only).
 
-Redeploy after a change:
+Republish:
 
 ```bash
 npm run build:pages                       # BASE_PATH=/bilkana-rooftop/ + preview URL + noindex
-cd dist && git init -q -b gh-pages && git add -A && git commit -qm "Deploy" \
-  && git push -f https://github.com/NOAH-IS-JESSIN/bilkana-rooftop HEAD:gh-pages
+git clone -q --depth 1 -b gh-pages https://github.com/NOAH-IS-JESSIN/bilkana-rooftop /tmp/ghp \
+  && rm -rf /tmp/ghp/* && cp -r dist/. /tmp/ghp/ && cd /tmp/ghp \
+  && git add -A && git commit -qm "Deploy" && git push -q origin HEAD:gh-pages
 QA_URL=https://noah-is-jessin.github.io/bilkana-rooftop/ node scripts/interact.mjs 390 844 --touch
 ```
 
